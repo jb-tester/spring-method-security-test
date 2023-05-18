@@ -4,3 +4,4 @@
 * @DeclareRoles
 * @RolesAllowed
 * @PreAuthorize
+* @PostAuthorize

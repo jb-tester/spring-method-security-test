@@ -15,4 +15,5 @@ public interface SampleRepository extends CrudRepository<SampleEntity,Long> {
 
      List<SampleEntity> findAllByVersionAndColor(Integer version, String color);
      List<SampleEntity> versionAndColor(Integer version, String color);
+     SampleEntity findFirstByColor(String color);
 }
