@@ -29,4 +29,6 @@ public interface ContactRepository {
 
     @Query("select c.firstname from ContactEntity c")
     List<String> getFirstnames();
+
+
 }

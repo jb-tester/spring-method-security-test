@@ -35,10 +35,17 @@ public class ContactController {
         return "contactsByNameAndSurname";
     }
 
-    @RequestMapping("/usernames")
-    public String usernames(ModelMap model) {
-        model.addAttribute("usernames_attr1", "usernames_filtered");
+    @RequestMapping("/usernames1")
+    public String filteredUserNamesPreFilter(ModelMap model) {
+        model.addAttribute("usernames_attr1", "usernames_filtered_with_prefilter");
         model.addAttribute("filtered_names", contactsServiceAdmin.displayOthers());
         return "usernames";
     }
+    @RequestMapping("/usernames2")
+    public String filteredUserNamesPostFilter(ModelMap model) {
+        model.addAttribute("usernames_attr1", "usernames_filtered_with_postfilter");
+        model.addAttribute("filtered_names", contactsServiceAdmin.filterOutThePrincipal());
+        return "usernames";
+    }
+
 }
