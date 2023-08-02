@@ -8,8 +8,8 @@ import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * *
@@ -25,7 +25,8 @@ public class ContactsServiceAdmin {
     private ContactRepository contactRepository;
 
     //@PreFilter("filterObject.firstname != authentication.name") // filterTarget could be omitted
-    @PreFilter(value = "filterObject.firstname != authentication.name", filterTarget = "contacts") // no reference https://youtrack.jetbrains.com/issue/IDEA-157668
+    @PreFilter(value = "filterObject.firstname != authentication.name", filterTarget = "contacts")
+    // no reference https://youtrack.jetbrains.com/issue/IDEA-157668
     public String filterOthers(List<ContactEntity> contacts) {
         StringBuilder rez = new StringBuilder("other contacts:\n");
         for (ContactEntity username : contacts) {
@@ -35,27 +36,74 @@ public class ContactsServiceAdmin {
     }
 
 
-    public String displayOthers(){
+    public String displayOthers() {
         return (filterOthers(contactRepository.findAll()));
     }
 
 
-    @PostFilter ("filterObject.firstname != authentication.name")
-    public List<ContactEntity> filterOutThePrincipal(){
-         return contactRepository.findAll();
+    @PostFilter("filterObject.firstname != authentication.name")
+    public List<ContactEntity> filterOutThePrincipal() {
+        return contactRepository.findAll();
     }
 
-     // dummy section
+    // @PreFilter tests: try different types
+    // @PreFilter supports arrays, collections, maps, and streams (so long as the stream is still open).
 
+    @PreFilter("filterObject.firstname == authentication.name")
+    public Collection<ContactEntity> preFilterCollectionTest(Collection<ContactEntity> contacts){
+        return contactRepository.findAll();
+    }
+
+    @PreFilter("filterObject.firstname == authentication.name")
+    public Collection<ContactEntity> preFilterArrayTest(ContactEntity[] contacts){
+        return contactRepository.findAll();
+    }
+
+    @PreFilter("filterObject.value.firstname == authentication.name")
+    public Collection<ContactEntity> preFilterMapTest(Map<String, ContactEntity> contacts){
+        return contactRepository.findAll();
+    }
+
+    @PreFilter("filterObject.firstname == authentication.name")
+    public Collection<ContactEntity> preFilterStreamTest(Stream<ContactEntity> contacts){
+        return contactRepository.findAll();
+    }
     // ???
     @PreFilter(value = "filterObject.startsWith('a')", filterTarget = "arg1")
-    public List<String> filterString(String arg1){
-        return Collections.singletonList(arg1);
+    public List<String> filterString(String... arg1) {
+        return Arrays.stream(arg1).toList();
     }
 
 
-    public String displayFilteredString(){
-        return (filterString("a test").toString());
+    public String displayFilteredVarargStrings() {
+        return (filterString("a test", "b test", "c test").toString());
+    }
+ ///
+    // @PostFilter tests: try diff filterObject types
+    // @PostFilter supports arrays, collections, maps, and streams (so long as the stream is still open).
+
+    @PostFilter("filterObject.firstname != ''")
+    public List<ContactEntity> listTest() {
+        return contactRepository.findAll();
+    }
+
+    @PostFilter("filterObject.firstname != ''")
+    public ContactEntity[] arrayTest() {
+        return contactRepository.findAll().toArray(ContactEntity[]::new);
+    }
+
+    @PostFilter("filterObject.value.firstname != ''")
+    public Map<String, ContactEntity> mapTest() {
+        Map<String, ContactEntity> map = new HashMap<>();
+        for (ContactEntity contactEntity : contactRepository.findAll()) {
+            map.put(contactEntity.getLastname(), contactEntity);
+        }
+        return map;
+    }
+
+    @PostFilter("filterObject.firstname != ''")
+    public Stream<ContactEntity> streamTests() {
+        return contactRepository.findAll().stream();
     }
     //
 

@@ -53,7 +53,7 @@ public class ContactController {
     @RequestMapping("/dummy1")
     public String filteredUserNamesPreFilter2(ModelMap model) {
         model.addAttribute("comment", "prefilter with String arg");
-        model.addAttribute("contents", contactsServiceAdmin.displayFilteredString());
+        model.addAttribute("contents", contactsServiceAdmin.displayFilteredVarargStrings());
         return "dummy";
     }
 
