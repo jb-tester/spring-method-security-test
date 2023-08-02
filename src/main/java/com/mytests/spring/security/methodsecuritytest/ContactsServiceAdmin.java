@@ -23,19 +23,19 @@ public class ContactsServiceAdmin {
     @Autowired
     private ContactRepository contactRepository;
 
-    // @PreFilter("filterObject != authentication.principal.username") // could be omitted
-    @PreFilter(value = "filterObject != authentication.principal.username", filterTarget = "usernames") // no reference https://youtrack.jetbrains.com/issue/IDEA-157668
-    public String filterOthers(List<String> usernames) {
+    //@PreFilter("filterObject.firstname != authentication.name") // filterTarget could be omitted
+    @PreFilter(value = "filterObject.firstname != authentication.name", filterTarget = "contacts") // no reference https://youtrack.jetbrains.com/issue/IDEA-157668
+    public String filterOthers(List<ContactEntity> contacts) {
         StringBuilder rez = new StringBuilder("other contacts:\n");
-        for (String username : usernames) {
-            rez.append("- ").append(username).append(" \n");
+        for (ContactEntity username : contacts) {
+            rez.append("- ").append(username.getFirstname()).append(" \n");
         }
         return rez.toString();
     }
 
 
     public String displayOthers(){
-        return (filterOthers(contactRepository.getFirstnames()));
+        return (filterOthers(contactRepository.findAll()));
     }
 
 
