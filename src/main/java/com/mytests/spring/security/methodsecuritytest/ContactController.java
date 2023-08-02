@@ -48,4 +48,14 @@ public class ContactController {
         return "usernames";
     }
 
+    // dummy section
+
+    @RequestMapping("/dummy1")
+    public String filteredUserNamesPreFilter2(ModelMap model) {
+        model.addAttribute("comment", "prefilter with String arg");
+        model.addAttribute("contents", contactsServiceAdmin.displayFilteredString());
+        return "dummy";
+    }
+
+    //
 }

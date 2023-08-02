@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,5 +44,19 @@ public class ContactsServiceAdmin {
     public List<ContactEntity> filterOutThePrincipal(){
          return contactRepository.findAll();
     }
+
+     // dummy section
+
+    // ???
+    @PreFilter(value = "filterObject.startsWith('a')", filterTarget = "arg1")
+    public List<String> filterString(String arg1){
+        return Collections.singletonList(arg1);
+    }
+
+
+    public String displayFilteredString(){
+        return (filterString("a test").toString());
+    }
+    //
 
 }
