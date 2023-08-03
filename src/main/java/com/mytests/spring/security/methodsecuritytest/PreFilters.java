@@ -1,6 +1,8 @@
 package com.mytests.spring.security.methodsecuritytest;
 
 import com.mytests.spring.security.methodsecuritytest.data.ContactEntity;
+import com.mytests.spring.security.methodsecuritytest.repositories.ContactRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +14,9 @@ import java.util.stream.Stream;
 
 @Component
 public class PreFilters {
+
+    @Autowired
+    private ContactRepository contactRepository;
 
     //@PreFilter("filterObject.firstname != authentication.name") // filterTarget could be omitted
     @PreFilter(value = "filterObject.firstname != 'qqq'", filterTarget = "contacts")
@@ -25,12 +30,21 @@ public class PreFilters {
     }
 
     // @PreFilter tests: try different types
-    // the documantation says that @PreFilter supports arrays, collections, maps, and streams (so long as the stream is still open).
+    // the documentation says that @PreFilter supports arrays, collections, maps, and streams (so long as the stream is still open).
     // However, it looks like only Collections are supported.
 
+    // this prefilter will be ignored since it is called from the same class only
     @PreFilter("filterObject.firstname == authentication.name")
     public Collection<ContactEntity> preFilterCollectionTest(Collection<ContactEntity> contacts){
         return contacts;
+    }
+
+    public String usePreFilterFromSameClass(){
+        StringBuilder rez = new StringBuilder("will not be filtered: ");
+        for (ContactEntity contact : preFilterCollectionTest(contactRepository.findAll())) {
+            rez.append(contact.getFirstname()).append(" | ");
+        }
+        return rez.toString();
     }
 
     // array: causes error: Pre-filtering on array types is not supported.
