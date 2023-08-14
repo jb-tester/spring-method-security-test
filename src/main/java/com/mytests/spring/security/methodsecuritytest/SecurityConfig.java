@@ -24,7 +24,7 @@ public class SecurityConfig  {
                 new User("user", passwordEncoder().encode("password"), List.of(new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_GUEST"))),
                 new User("guest", passwordEncoder().encode("jolt"), List.of(new SimpleGrantedAuthority("ROLE_GUEST"))),
                 new User("admin", passwordEncoder().encode("jolt"), List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_GUEST"))),
-                new User("irina", passwordEncoder().encode("jolt"), List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_GUEST")))
+                new User("irina", passwordEncoder().encode("jolt"), List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER") ))
         );
     }
     /*@Bean

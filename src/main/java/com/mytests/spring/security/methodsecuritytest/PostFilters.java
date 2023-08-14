@@ -27,17 +27,19 @@ public class PostFilters {
     // @PostFilter tests: try diff filterObject types
     // @PostFilter supports arrays, collections, maps, and streams (so long as the stream is still open).
 
-    @PostFilter("filterObject.firstname != 'qqq'")
+    @PostFilter("filterObject.firstname != 'irina'")
     public List<ContactEntity> listTest() {
+
         return contactRepository.findAll();
     }
 
-    @PostFilter("filterObject.firstname != 'qqq'")
+    @PostFilter("filterObject.firstname != 'irina'")
     public ContactEntity[] arrayTest() {
+
         return contactRepository.findAll().toArray(ContactEntity[]::new);
     }
 
-    @PostFilter("filterObject.value.firstname != 'qqq'")
+    @PostFilter("filterObject.value.firstname != 'irina'")
     public Map<String, ContactEntity> mapTest() {
         Map<String, ContactEntity> map = new HashMap<>();
         for (ContactEntity contactEntity : contactRepository.findAll()) {
@@ -46,8 +48,9 @@ public class PostFilters {
         return map;
     }
 
-    @PostFilter("filterObject.firstname != 'qqq'")
+    @PostFilter("filterObject.firstname != 'irina'")
     public Stream<ContactEntity> streamTests() {
+
         return contactRepository.findAll().stream();
     }
 
