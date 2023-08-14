@@ -17,8 +17,10 @@ import java.util.List;
 public class AnnotatedMethodsCallsWithinSameClass {
 
     private final ContactRepository contactRepository;
+
     // used only to test that the similar methods work as expected when defined in the separate class:
-    // uncomment all usages of separateService to check
+    // uncomment all usages of `separateService` to check
+
     // private final SeparateService separateService;
 
     public AnnotatedMethodsCallsWithinSameClass(ContactRepository contactRepository
@@ -28,7 +30,7 @@ public class AnnotatedMethodsCallsWithinSameClass {
       //  this.separateService = separateService;
     }
 
-    // this postfilter will be ignored since it is called from the same class only
+    // this postfilter will be ignored since it is called from the same class only.
     @PostFilter("filterObject.firstname != 'irina'")
     public List<ContactEntity> dummyPostFilter() {
         return contactRepository.findAll();
