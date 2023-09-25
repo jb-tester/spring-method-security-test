@@ -13,7 +13,7 @@ import java.security.Principal;
 public class PlaceholdersTest {
 
     // test placeholders in annotations (not in SpEL) - ok both for application.properties and application.yaml
-    @Value("${my.prop.name}")
+    @Value("${my.prop.test}")
     String foo;
     @RequestMapping("${my.prop.url}")
     public String mappingWithPlaceholder(){
