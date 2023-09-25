@@ -1,0 +1,6 @@
+my:
+  prop:
+    name: irina
+    url: /with_placeholder
+    test: foo
+    condition: true

@@ -3,6 +3,7 @@ package com.mytests.spring.security.methodsecuritytest;
 import com.mytests.spring.security.methodsecuritytest.data.SampleEntity;
 import com.mytests.spring.security.methodsecuritytest.repositories.SampleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -23,7 +24,7 @@ public class SampleController {
     @Autowired
     private SampleRepository sampleRepository;
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == 'irina')")
+    @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == ${my.prop.name})")
     @RequestMapping("/samples/test1")
     public String samplesTest1(ModelMap model, @P("pr") Principal my_principal) // https://youtrack.jetbrains.com/issue/IDEA-285147
     {
