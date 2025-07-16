@@ -1,0 +1,9 @@
+## should fail
+GET http://localhost:8080/samples/test4
+Authorization: Basic irina jolt
+###
+
+## should work
+GET http://localhost:8080/samples/test4
+Authorization: Basic admin jolt
+

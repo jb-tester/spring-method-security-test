@@ -24,7 +24,7 @@ public class SampleController {
     @Autowired
     private SampleRepository sampleRepository;
 
-    @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == ${my.prop.name})")
+   // @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == ${my.prop.name})")
     @RequestMapping("/samples/test1")
     public String samplesTest1(ModelMap model, @P("pr") Principal my_principal) // https://youtrack.jetbrains.com/issue/IDEA-285147
     {
@@ -55,5 +55,18 @@ public class SampleController {
         return sample;
     }
 
+    @PostAuthorize("this.isAdmin(authentication.name)")
+    @RequestMapping("/samples/test4")
+    @ResponseBody
+    public SampleEntity samplesTest4(ModelAndView model) {
+        SampleEntity sample = sampleRepository.findFirstByColor("red");
+        model.addObject("samples_test4_attr1", sample.toString());
+        model.setViewName("samples_test4");
+        return sample;
+    }
 
+
+    public boolean isAdmin(String username) {
+        return username.equals("admin");
+    }
 }
