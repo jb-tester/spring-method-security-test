@@ -21,7 +21,7 @@ public class PlaceholdersTest {
     }
 
     // placeholders inside SpEL: ok for application.properties, doesn't work for application.yaml
-    @PreAuthorize("#pr.name == ${my.prop.name} and hasRole(${my.prop.role})")
+   // @PreAuthorize("#pr.name == ${my.prop.name} and hasRole(${my.prop.role})")
     @RequestMapping("/with_placeholder_in_spel")
     public String samplesTest1(ModelMap model, @P("pr") Principal principal){
         return principal.getName();
