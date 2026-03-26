@@ -24,9 +24,45 @@ public class SampleController {
     @Autowired
     private SampleRepository sampleRepository;
 
-   // @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == ${my.prop.name})")
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping("/samples/test0")
+    public String samplesTest0(ModelMap model) {
+     long samplesAmount = sampleRepository.count();
+     model.addAttribute("samplesAmount",samplesAmount);
+     model.addAttribute("source_attr", "authenticated");
+     return "samples_test0";
+    }
+    @PreAuthorize("isFullyAuthenticated()")
+    @RequestMapping("/samples/test01")
+    public String samplesTest01(ModelMap model) {
+
+        long samplesAmount = sampleRepository.count();
+        model.addAttribute("samplesAmount",samplesAmount);
+        model.addAttribute("source_attr", "fully authenticated");
+        return "samples_test0";
+    }
+    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @RequestMapping("/samples/test02")
+    public String samplesTest02(ModelMap model) {
+
+        long samplesAmount = sampleRepository.count();
+        model.addAttribute("samplesAmount",samplesAmount);
+        model.addAttribute("source_attr", "has ROLE_USER authority");
+        return "samples_test0";
+    }
+    @PreAuthorize("hasRole('ADMIN')")
+    @RequestMapping("/samples/test03")
+    public String samplesTest03(ModelMap model) {
+
+        long samplesAmount = sampleRepository.count();
+        model.addAttribute("samplesAmount",samplesAmount);
+        model.addAttribute("source_attr", "has ADMIN role");
+        return "samples_test0";
+    }
+
+    @PreAuthorize("hasAnyRole('USER','ADMIN') and (#pr.name == ${my.prop.name})")
     @RequestMapping("/samples/test1")
-    public String samplesTest1(ModelMap model, @P("pr") Principal my_principal) // https://youtrack.jetbrains.com/issue/IDEA-285147
+    public String samplesTest1(ModelMap model, @P("pr") Principal my_principal) // https://youtrack.jetbrains.com/issue/IDEA-285147 fixed
     {
         StringBuilder rez = new StringBuilder();
         for (SampleEntity sample : sampleRepository.versionAndColor(10, "red")) {

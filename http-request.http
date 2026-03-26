@@ -1,3 +1,19 @@
+### isAuthenticated(): unlocking works here
+GET http://localhost:8080/samples/test0
+
+### isFullyAuthenticated(): unlocking works here
+GET http://localhost:8080/samples/test01
+
+### hasAuthority(ROLE_USER): unlocking DOES NOT work here
+GET http://localhost:8080/samples/test02
+
+### hasRole(ADMIN): unlocking DOES NOT work here
+GET http://localhost:8080/samples/test02
+
+###
+GET http://localhost:8080/samples/test4
+
+###
 ## should fail
 GET http://localhost:8080/samples/test4
 Authorization: Basic irina jolt
